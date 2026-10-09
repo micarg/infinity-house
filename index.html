@@ -452,7 +452,8 @@ box(SKY[0]-.12,SKY[1],SKY[0],SKY[3],ZRF,ZRF+.3,mat.white);box(SKY[2],SKY[1],SKY[
  box(SKY[0]-.06,SKY[1]+.01,SKY[0]+.01,SKY[3]-.01,ZRF+.27,ZRF+.33,mat.alu,{cast:false});box(SKY[2]-.01,SKY[1]+.01,SKY[2]+.06,SKY[3]-.01,ZRF+.27,ZRF+.33,mat.alu,{cast:false});})();
 run('y',10.14,10.48,-1.02,13.81,ZF,ZRF,mat.white,[{a:5.53,b:6.72,sill:.9,head:1.65},{a:7.48,b:8.68,sill:.9,head:1.65}]);
 run('x',13.47,13.81,2.83,10.48,ZF,ZRF,mat.white,[{a:3.14,b:5.32,sill:.05,head:2.5,n:2}]);
-slabH(2.83,-1.02,10.48,13.81,ZC,ZRF,[SKY],mat.white);slabH(3.13,-1.0,10.14,13.47,ZF,ZF+.02,[VOID,STAIRF],mat.microI,{cast:false});slabH(3.13,1.15,10.14,13.47,ZC-.02,ZC,[SKY],mat.white,{cast:false});
+// roof slab 1 cm inside the outer walls and 3 mm below their tops, so it never shares a face with them (that flickered on phones)
+slabH(2.84,-1.01,10.47,13.80,ZC,ZRF-.003,[SKY],mat.white);slabH(3.13,-1.0,10.14,13.47,ZF,ZF+.02,[VOID,STAIRF],mat.microI,{cast:false});slabH(3.13,1.15,10.14,13.47,ZC-.02,ZC,[SKY],mat.white,{cast:false});
 box(5.3,0.94,7.95,1.15,ZF,ZC,mat.white);pane('x',1.05,3.13,5.3,ZF+.02,ZC,2);pane('x',1.05,7.95,10.14,ZF+.02,ZC,2);
 box(6.56,1.15,6.71,5.05,ZF,ZC,mat.int);run('x',4.96,5.08,3.13,10.14,ZF,ZC,mat.int,[{a:5.62,b:6.46,head:2.3,glass:false},{a:6.81,b:7.65,head:2.3,glass:false}]);
 run('x',10.17,10.32,3.13,6.55,ZF,ZC,mat.int,[{a:5.62,b:6.46,head:2.3,glass:false}]);
