@@ -397,17 +397,17 @@ function setLights(k,on){const g=LG[k];if(on&&g.dim<.03){g.dim=1;document.queryS
  box(7.76,12.47,7.81,13.45,ZB,ZB+2.1,mat.door);box(7.74,12.58,7.76,12.62,ZB+.95,ZB+1.09,mat.chrome);
  // diagonal glass along the open side of the basement flight, 1 m above the nosing line like the upper flight; it stops under the basement ceiling
  (function(){const X=x0-.02,k=(GL-ZB)/(yA-yB),zc=-.17,g=new THREE.BufferGeometry();
-  g.setAttribute('position',new THREE.Float32BufferAttribute([X,ZB,yA, X,ZB+1.0,yA, X,zc,yA-(zc-ZB-1.0)/k, X,zc,yA-(zc-ZB)/k],3));g.setIndex([0,1,2,0,2,3]);g.computeVertexNormals();
+  g.setAttribute('position',new THREE.Float32BufferAttribute([X,ZB,yA, X,ZB+1.15,yA, X,zc,yA-(zc-ZB-1.15)/k, X,zc,yA-(zc-ZB)/k],3));g.setIndex([0,1,2,0,2,3]);g.computeVertexNormals();
   const gm=mat.glass.clone();gm.side=THREE.DoubleSide;S.add(new THREE.Mesh(g,gm));})();
  // as in the reference photo: a straight, level glass guard along the basement stair opening (1.15 m, full length), standing just in front of the diagonal glass of the upper flight
- box(x0-.065,yB,x0-.05,yA,GL,GL+1.0,mat.glass,{cast:false});box(x0-.075,yB,x0-.04,yA,GL,GL+.04,mat.alu,{cast:false});})();
+ box(x0-.065,yB,x0-.05,yA,GL,GL+1.15,mat.glass,{cast:false});box(x0-.075,yB,x0-.04,yA,GL,GL+.04,mat.alu,{cast:false});})();
 // internal stair, ground to first floor: 18 risers rising from the entrance side towards the kitchen
 (function(){const n=18,x0=6.55,x1=7.68,yA=12.35,yB=7.31,d=(yA-yB)/n,r=(ZF-GL)/n;
  for(let i=0;i<n;i++){const ya=yA-(i+1)*d,yb=yA-i*d,zt=GL+(i+1)*r;
   box(x0,ya,x1,yb,Math.max(GL,zt-r-.14),zt,mat.conc);}
- // one continuous glass guard, parallel to the pitch of the stair, 1 m above the nosing line
+ // one continuous glass guard, parallel to the pitch of the stair, 1.15 m above the nosing line: same height as the level guard below it and the bridge guards upstairs
  const X=x0-.02,g=new THREE.BufferGeometry();
- g.setAttribute('position',new THREE.Float32BufferAttribute([X,GL,yA, X,GL+1.0,yA, X,ZF+1.0,yB, X,ZF,yB],3));g.setIndex([0,1,2,0,2,3]);g.computeVertexNormals();
+ g.setAttribute('position',new THREE.Float32BufferAttribute([X,GL,yA, X,GL+1.15,yA, X,ZF+1.15,yB, X,ZF,yB],3));g.setIndex([0,1,2,0,2,3]);g.computeVertexNormals();
  const gm=mat.glass.clone();gm.side=THREE.DoubleSide;const me=new THREE.Mesh(g,gm);me.receiveShadow=false;S.add(me);})();
 // white ceiling inside the ground floor (the soffits outside stay fair-faced concrete)
 slabH(0.39,6.75,8.03,13.46,ZS-.02,ZS,[VOID,STAIRF],mat.white,{cast:false});box(5.28,0.09,10.19,6.75,ZS-.02,ZS,mat.white,{cast:false});box(8.03,6.75,10.19,8.29,ZS-.02,ZS,mat.white,{cast:false});
