@@ -274,7 +274,8 @@ function tree(x,y,z0,h,r,n){
   const me=new THREE.Mesh(g,ms[i%3]);const an=rnd()*6.28,ra=r*.75*Math.sqrt(rnd());me.position.set(x+Math.cos(an)*ra,z0+h+r*.35+(rnd()-.3)*r*.8,y+Math.sin(an)*ra);me.castShadow=true;me.receiveShadow=true;S.add(me);}}
 function shrub(x,y,z0,r){for(let i=0;i<4;i++){const g=new THREE.SphereGeometry(r*(.6+rnd()*.5),6,5),me=new THREE.Mesh(g,[mat.leaf3,mat.leaf1][i%2]);me.position.set(x+(rnd()-.5)*r,z0+r*.5+rnd()*r*.4,y+(rnd()-.5)*r);me.scale.y=.8;me.castShadow=true;me.receiveShadow=true;S.add(me);}}
 
-const SKY=[6.5,7.13,7.75,12.34],FG=[1.11,7.95,2.61,9.47],STAIRG=[6.55,8.32,7.68,12.35],STAIRF=[6.55,7.31,7.68,12.35],VOID=[3.13,7.2,5.3,10.17];
+const SKY=[6.55,7.13,7.655,12.35],// skylight edges flush with the stair walls below it (no ledges)
+FG=[1.11,7.95,2.61,9.47],STAIRG=[6.55,8.32,7.68,12.35],STAIRF=[6.55,7.31,7.68,12.35],VOID=[3.13,7.2,5.3,10.17];
 function slabH(x0,y0,x1,y1,z0,z1,holes,m,o){const xs=[x0,x1],ys=[y0,y1];
  holes.forEach(h=>{[h[0],h[2]].forEach(v=>{if(v>x0&&v<x1)xs.push(v)});[h[1],h[3]].forEach(v=>{if(v>y0&&v<y1)ys.push(v)})});xs.sort((a,b)=>a-b);ys.sort((a,b)=>a-b);
  for(let i=0;i<xs.length-1;i++)for(let j=0;j<ys.length-1;j++){const cx=(xs[i]+xs[i+1])/2,cy=(ys[j]+ys[j+1])/2;
@@ -336,7 +337,7 @@ box(LX1-.2,6.7,LX1,14.45,0,ZS,mat.conc);
 // glazing set back behind the round columns, solid wall on the kitchen end (as in the architect's renders)
 pane('y',0.18,6.73,8.46,GL,ZS,1);pane('x',6.73,0.2,5.26,GL,ZS,3);pane('y',5.26,0.15,6.73,GL,ZS,4);
 
-[[5.6,1.73],[5.6,5.04],[3.59,7.07]].forEach(p=>{const c=new THREE.Mesh(new THREE.CylinderGeometry(.2,.2,ZS-GL,24),mat.conc);c.position.set(p[0],(GL+ZS)/2,p[1]);c.castShadow=true;c.receiveShadow=true;S.add(c);});
+[[5.6,1.73],[5.6,5.04],[3.59,6.995]].forEach(p=>{const c=new THREE.Mesh(new THREE.CylinderGeometry(.2,.2,ZS-GL,24),mat.conc);c.position.set(p[0],(GL+ZS)/2,p[1]);c.castShadow=true;c.receiveShadow=true;S.add(c);});
 // interior seen through the glass
 slabH(0,6.73,8.03,13.79,GL,GL+.02,[STAIRG,FG],mat.microI,{cast:false});box(8.03,6.73,10.52,8.52,GL,GL+.02,mat.microI,{cast:false});
 // walk-on glass floor light over the basement (1.5 x 1.5 m, by the two armchairs on the plan) and the concrete basement ceiling
@@ -400,14 +401,14 @@ function setLights(k,on){const g=LG[k];if(on&&g.dim<.03){g.dim=1;document.queryS
 // white ceiling inside the ground floor (the soffits outside stay fair-faced concrete)
 slabH(0.39,6.75,8.03,13.46,ZS-.02,ZS,[VOID,STAIRF],mat.white,{cast:false});box(5.28,0.17,10.19,6.75,ZS-.02,ZS,mat.white,{cast:false});box(8.03,6.75,10.19,8.29,ZS-.02,ZS,mat.white,{cast:false});
 // double-height void over the living room: white lining on all four faces and its ceiling, to match the ground-floor ceiling
-box(VOID[0],VOID[1],VOID[2],VOID[1]+.015,ZS,ZC,mat.white,{cast:false});box(VOID[0],VOID[3]-.015,VOID[2],VOID[3],ZS,ZC,mat.white,{cast:false});
-box(VOID[0],VOID[1]+.015,VOID[0]+.015,VOID[3]-.015,ZS,ZF,mat.white,{cast:false});box(VOID[2]-.015,VOID[1]+.015,VOID[2],VOID[3]-.015,ZS,ZF,mat.white,{cast:false});
-box(VOID[0],VOID[1]+.015,VOID[2],VOID[3]-.015,ZC-.035,ZC-.02,mat.white,{cast:false});
+box(VOID[0],VOID[1],VOID[2],VOID[1]+.003,ZS,ZC,mat.int,{cast:false});box(VOID[0],VOID[3]-.003,VOID[2],VOID[3],ZS,ZC,mat.int,{cast:false});
+box(VOID[0],VOID[1]+.003,VOID[0]+.003,VOID[3]-.003,ZS,ZF,mat.int,{cast:false});box(VOID[2]-.003,VOID[1]+.003,VOID[2],VOID[3]-.003,ZS,ZF,mat.int,{cast:false});
+box(VOID[0],VOID[1]+.003,VOID[2],VOID[3]-.003,ZC-.035,ZC-.02,mat.white,{cast:false});
 // stair opening in the first floor: the slab edges lined white like the void, so no grey concrete or black strip shows while climbing
-box(STAIRF[0],STAIRF[1],STAIRF[0]+.015,STAIRF[3],ZS-.02,ZF,mat.white,{cast:false});
-box(STAIRF[0],STAIRF[1],7.655,STAIRF[1]+.015,ZS-.02,ZF,mat.white,{cast:false});box(STAIRF[0],STAIRF[3]-.015,7.655,STAIRF[3],ZS-.02,ZF,mat.white,{cast:false});
+box(STAIRF[0],STAIRF[1],STAIRF[0]+.003,STAIRF[3],ZS-.02,ZF,mat.int,{cast:false});
+box(STAIRF[0],STAIRF[1],7.655,STAIRF[1]+.003,ZS-.02,ZF,mat.int,{cast:false});box(STAIRF[0],STAIRF[3]-.003,7.655,STAIRF[3],ZS-.02,ZF,mat.int,{cast:false});
 // stair wall: one continuous fair-faced concrete face from the basement floor to the first-floor ceiling (covers the slab edges)
-box(7.655,8.32,7.68,12.35,-2.65,ZC,mat.conc,{cast:false});box(7.655,7.31,7.68,8.32,ZS,ZC,mat.conc,{cast:false});
+box(7.655,8.32,7.68,12.35,-2.65,ZRF,mat.conc,{cast:false});box(7.655,7.31,7.68,8.32,ZS,ZRF,mat.conc,{cast:false});
 // roof band over ground floor + slab under the upper volume
 slabH(LX0,6.7,LX1,14.45,ZS,ZK,[VOID,STAIRF,[-1.48,7.6,0,13.47]],mat.conc);box(2.83,-1.02,10.48,6.7,ZS,ZK,mat.conc);slabH(2.98,-0.87,10.33,13.66,ZK,ZK+.1,[VOID,STAIRF],mat.alu);slabH(2.83,-1.02,10.48,13.81,ZK+.1,ZF,[VOID,STAIRF],mat.white);
 
@@ -461,8 +462,8 @@ function shower(x0,y0,x1,y1,z,gx){box(x0,y0,x1,y1,z+.02,z+.05,mat.cer,{cast:fals
  box(x1-.06,(y0+y1)/2-.015,x1-.03,(y0+y1)/2+.015,z+1.0,z+2.15,mat.chrome);box(x1-.4,(y0+y1)/2-.015,x1-.03,(y0+y1)/2+.015,z+2.12,z+2.15,mat.chrome);
  const h=new THREE.Mesh(new THREE.CylinderGeometry(.13,.13,.02,24),mat.chrome);h.position.set(x1-.4,z+2.1,(y0+y1)/2);S.add(h);}
 // ground-floor WC
-// built-in cupboard / services shaft in the small recess of the side-entrance hall
-box(9.47,7.23,10.19,8.29,GL,ZS,mat.cab);box(9.455,7.75,9.47,7.77,GL,ZS-.02,mat.alu,{cast:false});
+// services shaft in the small recess of the side-entrance hall: finished as a plain wall like the rest
+box(9.47,7.23,10.19,8.29,GL,ZS,mat.int);
 vanity(8.25,5.19,8.9,5.6,GL,[[8.57,5.24,0,.14]]);toilet(10.17,6.2,GL,-Math.PI/2);
 // first-floor bathroom
 vanity(7.95,5.09,8.6,5.5,ZF,[[8.27,5.14,0,.14]]);toilet(8.95,5.07,ZF,0);shower(9.36,5.1,10.12,6.8,ZF,9.35);
@@ -506,7 +507,7 @@ vanity(7.92,7.3,8.34,8.75,ZF,[[7.97,7.65,.14,0],[7.97,8.4,.14,0]]);toilet(8.95,7
 // hidden LED wash in the gap between the house front wall (entrance door) and the sliding screens, tucked under the top track
 (function(){const glow=glowMat('P');
  const st=new THREE.Mesh(new THREE.BoxGeometry(8.0,.015,.03),glow);st.position.set(4.03,ZS-.065,13.835);S.add(st);
- [1.9,5.9].forEach(x=>{const L=lamp('P',new THREE.SpotLight(0xffae62,3.2,5,.75,.8,1.5));L.position.set(x,ZS-.08,13.86);L.target.position.set(x,GL,13.76);});
+ [1.9,5.9].forEach(x=>{const L=lamp('P',new THREE.SpotLight(0xffae62,3.2,3.2,.14,.6,1.5));L.position.set(x,ZS-.08,13.86);L.target.position.set(x,GL,13.9);});
  // a little light also spills down onto the strip of paving between wall and screens
  })();
 // hidden ground-floor lighting: LED in a shadow gap along the long living-room wall, and a concealed strip at the top of the double-height void
@@ -568,7 +569,7 @@ vanity(7.92,7.3,8.34,8.75,ZF,[[7.97,7.65,.14,0],[7.97,8.4,.14,0]]);toilet(8.95,7
  for(let i=0;i<6;i++){const x=-2.73+SW*(i+.5);
   const t=new THREE.Mesh(trim,blk);t.position.set(x,ZS-.0025,14.32);S.add(t);
   const l=new THREE.Mesh(lens,glow);l.rotation.x=Math.PI/2;l.position.set(x,ZS-.0055,14.32);S.add(l);}
- [0,5.4,10.8].forEach(x=>{const L=lamp('P',new THREE.PointLight(0xffb470,1.6,6.5,1.5));L.position.set(x,ZS-.25,15.1);});
+ [0,5.4,10.8].forEach(x=>{const L=lamp('P',new THREE.SpotLight(0xffb470,2.2,6.5,.55,.8,1.5));L.position.set(x,ZS-.25,15.3);L.target.position.set(x,GL,16.6);});
  // each spot spreads a broad, soft pool down its panel: brightest just under the beam, fading gently to the floor, no hard edges
  const w=SW-.02,h=ZS-GL-.06,t=washTex(64,128,(u,v)=>{const sx=Math.exp(-Math.pow((u-.5)/.62,2)),sy=.38+.62*Math.exp(-Math.pow(v/.55,2))*(1-.25*Math.exp(-Math.pow(v/.06,2)));return sx*sy;});
  sections.forEach(p=>{const m=wash('P',new THREE.PlaneGeometry(w,h),t,0xffb066,.55,p);m.position.set(w/2,h/2,.027);});
