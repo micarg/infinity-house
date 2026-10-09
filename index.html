@@ -326,13 +326,21 @@ run('x',13.46,13.79,0,8.03,GL,ZS,mat.conc,[{a:5.08,b:6.1,head:2.4,glass:false},{
 box(5.1,13.58,6.1,13.64,GL,GL+2.4,mat.door);box(5.95,13.64,5.99,13.69,GL+.9,GL+1.3,mat.alu);
 box(8.63,0,10.52,0.3,GL,ZS,mat.conc);pane('x',0.07,5.26,8.63,GL,ZS,2);
 run('y',10.19,10.52,0.3,8.52,GL,ZS,mat.conc,[{a:2.54,b:4.92,sill:1.14,head:1.84,n:2},{a:5.5,b:6.6,sill:1.14,head:1.84}]);
-run('x',8.29,8.52,8.03,10.19,GL,ZS,mat.conc,[{a:8.1,b:8.98,head:2.15,glass:false}]);box(8.1,8.38,8.98,8.43,GL,GL+2.15,mat.black);
+run('x',8.29,8.52,8.03,10.19,GL,ZS,mat.conc,[{a:8.03,b:9.0,head:2.15,glass:false}]);box(8.03,8.38,9.0,8.43,GL,GL+2.15,mat.black);
 box(7.68,8.33,8.03,13.79,GL,ZS,mat.conc);
 box(7.68,4.92,8.03,7.23,GL,ZS,mat.int);box(8.03,4.92,10.19,5.17,GL,ZS,mat.int);box(9.0,7.0,10.19,7.23,GL,ZS,mat.int);box(8.03,7.0,9.0,7.23,GL+2.1,ZS,mat.int);box(8.04,6.08,8.085,7.0,GL,GL+2.08,mat.cab);box(8.085,6.2,8.11,6.24,GL+.98,GL+1.02,mat.chrome);
 // outbuilding + carport side wall
-box(-2.98,6.7,-1.48,9.2,GL,ZS,mat.conc);box(-2.98,11.3,-1.48,13.8,GL,ZS,mat.conc);box(-2.98,9.2,-2.78,11.3,GL,ZS,mat.conc);
+box(-2.98,6.70,-2.78,6.82,0,1.0,mat.conc);// side boundary wall carried on to the WC's back wall
+(function(){const room=(y0,y1,yi0,yi1,doorY,doorSide)=>{box(-2.98,y0,-2.71,y1,GL,ZS,mat.conc);box(-1.65,y0,-1.48,y1,GL,ZS,mat.conc);
+  // back wall solid; the face onto the alcove has a 0.97 m door opening
+  const [b0,b1]=doorSide>0?[y0,yi0]:[yi1,y1],[a0,a1]=doorSide>0?[yi1,y1]:[y0,yi0];box(-2.71,b0,-1.65,b1,GL,ZS,mat.conc);
+  box(-2.71,a0,-1.65,a1,GL+2.1,ZS,mat.conc);box(-2.71,a0,-2.69,a1,GL,GL+2.1,mat.conc);box(-1.72,a0,-1.65,a1,GL,GL+2.1,mat.conc);
+  box(-2.71,yi0,-1.65,yi1,ZS-.02,ZS,mat.white,{cast:false});box(-2.71,yi0,-1.65,yi1,GL,GL+.01,mat.micro,{cast:false});};
+ room(6.82,9.30,6.97,9.22,0,1);room(11.40,13.93,11.46,13.82,0,-1);
+ vanity(-2.71,6.97,-1.65,7.45,GL,[[-2.185,7.0,0,.14]]);toilet(-1.65,8.26,GL,-Math.PI/2);})();
+box(-2.98,9.30,-2.78,11.40,GL,ZS,mat.conc);
 // WC door (south face) and store door (north face), each 1.0 m, opening onto the alcove off the garden passage
-box(-2.67,9.2,-1.67,9.235,GL,GL+2.1,mat.door);box(-1.82,9.235,-1.78,9.26,GL+.95,GL+1.07,mat.chrome);box(-2.67,11.265,-1.67,11.3,GL,GL+2.1,mat.door);box(-1.82,11.24,-1.78,11.265,GL+.95,GL+1.07,mat.chrome);box(-2.98,13.8,-2.73,14.45,GL,ZS,mat.conc);
+box(-2.69,9.265,-1.72,9.30,GL,GL+2.1,mat.door);box(-1.86,9.30,-1.82,9.325,GL+.95,GL+1.07,mat.chrome);box(-2.69,11.40,-1.72,11.435,GL,GL+2.1,mat.door);box(-1.86,11.375,-1.82,11.40,GL+.95,GL+1.07,mat.chrome);box(-2.98,13.93,-2.73,14.45,GL,ZS,mat.conc);
 box(LX1-.2,6.7,LX1,14.45,0,ZS,mat.conc);
 // glazing
 // glazing set back behind the round columns, solid wall on the kitchen end (as in the architect's renders)
@@ -403,12 +411,15 @@ function setLights(k,on){const g=LG[k];if(on&&g.dim<.03){g.dim=1;document.queryS
 slabH(0.39,6.75,8.03,13.46,ZS-.02,ZS,[VOID,STAIRF],mat.white,{cast:false});box(5.28,0.09,10.19,6.75,ZS-.02,ZS,mat.white,{cast:false});box(8.03,6.75,10.19,8.29,ZS-.02,ZS,mat.white,{cast:false});
 // double-height void over the living room: white lining on all four faces and its ceiling, to match the ground-floor ceiling
 const intL=mat.int.clone();intL.polygonOffset=true;intL.polygonOffsetFactor=-2;intL.polygonOffsetUnits=-4;
-box(VOID[0],VOID[1],VOID[2],VOID[1]+.002,ZS,ZF+.02,intL,{cast:false});box(VOID[0],VOID[3]-.002,VOID[2],VOID[3],ZS,ZF+.02,intL,{cast:false});
-box(VOID[0],VOID[1]+.002,VOID[0]+.002,VOID[3]-.002,ZS,ZF+.02,intL,{cast:false});box(VOID[2]-.002,VOID[1]+.002,VOID[2],VOID[3]-.002,ZS,ZF+.02,intL,{cast:false});
+// edge linings are single faces (no thickness, so no top edge shows as a line), drawn over the slab edges with a depth offset
+function liner(ax,c,a0,a1,z0,z1,dir){const m=new THREE.Mesh(new THREE.PlaneGeometry(a1-a0,z1-z0),intL);m.receiveShadow=true;
+ if(ax==='x'){m.rotation.y=dir>0?Math.PI/2:-Math.PI/2;m.position.set(c+dir*.001,(z0+z1)/2,(a0+a1)/2);}else{m.rotation.y=dir>0?0:Math.PI;m.position.set((a0+a1)/2,(z0+z1)/2,c+dir*.001);}S.add(m);}
+liner('y',VOID[1],VOID[0],VOID[2],ZS,ZF+.02,1);liner('y',VOID[3],VOID[0],VOID[2],ZS,ZF+.02,-1);
+liner('x',VOID[0],VOID[1],VOID[3],ZS,ZF+.02,1);liner('x',VOID[2],VOID[1],VOID[3],ZS,ZF+.02,-1);
 box(VOID[0],VOID[1]+.003,VOID[2],VOID[3]-.003,ZC-.035,ZC-.02,mat.white,{cast:false});
 // stair opening in the first floor: the slab edges lined white like the void, so no grey concrete or black strip shows while climbing
-box(STAIRF[0],STAIRF[1],STAIRF[0]+.002,STAIRF[3],ZS-.02,ZF+.02,intL,{cast:false});
-box(STAIRF[0],STAIRF[1],7.655,STAIRF[1]+.002,ZS-.02,ZF+.02,intL,{cast:false});box(STAIRF[0],STAIRF[3]-.002,7.655,STAIRF[3],ZS-.02,ZF+.02,intL,{cast:false});
+liner('x',STAIRF[0],STAIRF[1],STAIRF[3],ZS-.02,ZF+.02,1);
+liner('y',STAIRF[1],STAIRF[0],7.655,ZS-.02,ZF+.02,1);liner('y',STAIRF[3],STAIRF[0],7.655,ZS-.02,ZF+.02,-1);
 // stair wall: one continuous fair-faced concrete face from the basement floor to the first-floor ceiling (covers the slab edges)
 // it carries on up the side of the skylight to the glass, so no other surface shares its face (no flicker)
 box(7.655,8.32,7.68,12.35,-2.65,ZRF+.3,mat.conc,{cast:false});box(7.655,7.31,7.68,8.32,ZS,ZRF+.3,mat.conc,{cast:false});box(7.655,SKY[1],7.68,7.31,ZF,ZRF+.3,mat.conc,{cast:false});
@@ -429,7 +440,7 @@ box(8.03,13.79,8.13,13.93,GL,ZS-.05,mat.blackS);box(-2.73,13.87,13.58,14.13,GL,G
 run('y',2.83,3.13,-1.02,13.81,ZF,ZRF,mat.white,[{a:3.14,b:4.16,sill:0,head:ZC-ZF},{a:5.25,b:6.77,sill:0,head:ZC-ZF,glass:false},{a:10.33,b:11.33,sill:0,head:ZC-ZF}]);
 box(2.94,3.14,3.02,4.16,ZF+1.0,ZF+1.05,mat.alu);box(2.94,10.33,3.02,11.33,ZF+1.0,ZF+1.05,mat.alu);
 // recessed balcony niche on the pool side, with glass guard
-box(3.13,5.05,3.98,5.25,ZF,ZC,mat.white);box(3.13,6.77,3.98,6.87,ZF,ZC,mat.white);run('y',3.98,4.1,5.05,6.87,ZF,ZC,mat.white,[{a:5.5,b:6.5,sill:0,head:2.3}]);
+box(3.13,5.05,4.0,5.25,ZF,ZC,mat.white);box(3.13,6.77,4.0,6.98,ZF,ZC,mat.white);run('y',4.0,4.18,5.05,6.98,ZF,ZC,mat.white,[{a:5.70,b:6.69,sill:0,head:2.3}]);
 box(2.9,5.25,2.92,6.77,ZF,ZF+1.0,mat.glass,{cast:false});
 // roof light
 // roof light over the stair, as on the roof plan and sections: open through the slab, glazed on a raised kerb
@@ -444,13 +455,15 @@ run('y',10.14,10.48,-1.02,13.81,ZF,ZRF,mat.white,[{a:5.53,b:6.72,sill:.9,head:1.
 run('x',13.47,13.81,2.83,10.48,ZF,ZRF,mat.white,[{a:3.14,b:5.32,sill:.05,head:2.5,n:2}]);
 slabH(2.83,-1.02,10.48,13.81,ZC,ZRF,[SKY],mat.white);slabH(3.13,-1.0,10.14,13.47,ZF,ZF+.02,[VOID,STAIRF],mat.microI,{cast:false});slabH(3.13,1.15,10.14,13.47,ZC-.02,ZC,[SKY],mat.white,{cast:false});
 box(5.3,0.94,7.95,1.15,ZF,ZC,mat.white);pane('x',1.05,3.13,5.3,ZF+.02,ZC,2);pane('x',1.05,7.95,10.14,ZF+.02,ZC,2);
-box(6.56,1.15,6.71,5.05,ZF,ZC,mat.int);run('x',4.88,5.05,3.13,10.14,ZF,ZC,mat.int,[{a:5.62,b:6.46,head:2.3,glass:false},{a:6.81,b:7.65,head:2.3,glass:false}]);
+box(6.56,1.15,6.71,5.05,ZF,ZC,mat.int);run('x',4.96,5.08,3.13,10.14,ZF,ZC,mat.int,[{a:5.62,b:6.46,head:2.3,glass:false},{a:6.81,b:7.65,head:2.3,glass:false}]);
 run('x',10.17,10.32,3.13,6.55,ZF,ZC,mat.int,[{a:5.62,b:6.46,head:2.3,glass:false}]);
-run('y',5.33,5.55,5.05,6.87,ZF,ZC,mat.int,[{a:5.85,b:6.65,head:2.3,glass:false}]);
+run('y',5.40,5.59,5.05,6.98,ZF,ZC,mat.int,[{a:6.04,b:6.85,head:2.3,glass:false}]);
+// laundry counter along the corridor wall (plain, as drawn)
+box(4.18,5.08,5.40,5.70,ZF,ZF+.86,mat.cab);box(4.18,5.08,5.40,5.72,ZF+.86,ZF+.9,mat.cer);
 run('y',7.7,7.89,5.05,7.2,ZF,ZC,mat.int,[{a:6.0,b:6.78,head:2.3,glass:false}]);box(7.89,6.87,10.14,7.2,ZF,ZC,mat.int);
 run('x',9.03,9.15,7.89,10.14,ZF,ZC,mat.int,[{a:8.6,b:9.38,head:2.3,glass:false}]);
 // around the double-height void and the stair opening on the first floor
-box(3.13,6.87,5.55,7.2,ZF,ZC,mat.int);box(7.7,7.2,7.89,12.47,ZF,ZC,mat.int);box(6.45,10.32,6.55,12.47,ZF,ZC,mat.int);box(6.45,12.35,7.7,12.47,ZF,ZC,mat.int);
+box(3.13,6.98,5.59,7.2,ZF,ZC,mat.int);box(7.7,7.2,7.89,12.47,ZF,ZC,mat.int);box(6.45,10.32,6.55,12.47,ZF,ZC,mat.int);box(6.45,12.35,7.7,12.47,ZF,ZC,mat.int);
 box(5.3,7.2,5.32,10.17,ZF,ZF+1.15,mat.glass,{cast:false});
 // glass guard along the corridor side of the stair opening, matching the one across at the void
 box(6.5,7.31,6.52,10.32,ZF,ZF+1.15,mat.glass,{cast:false});
@@ -465,8 +478,6 @@ function shower(x0,y0,x1,y1,z,gx){box(x0,y0,x1,y1,z+.02,z+.05,mat.cer,{cast:fals
  box(x1-.06,(y0+y1)/2-.015,x1-.03,(y0+y1)/2+.015,z+1.0,z+2.15,mat.chrome);box(x1-.4,(y0+y1)/2-.015,x1-.03,(y0+y1)/2+.015,z+2.12,z+2.15,mat.chrome);
  const h=new THREE.Mesh(new THREE.CylinderGeometry(.13,.13,.02,24),mat.chrome);h.position.set(x1-.4,z+2.1,(y0+y1)/2);S.add(h);}
 // ground-floor WC
-// services shaft in the small recess of the side-entrance hall: finished as a plain wall like the rest
-box(9.47,7.23,10.19,8.29,GL,ZS,mat.int);
 vanity(8.25,5.19,8.9,5.6,GL,[[8.57,5.24,0,.14]]);toilet(10.17,6.2,GL,-Math.PI/2);
 // first-floor bathroom
 vanity(7.95,5.09,8.6,5.5,ZF,[[8.27,5.14,0,.14]]);toilet(8.95,5.07,ZF,0);shower(9.36,5.1,10.12,6.8,ZF,9.35);
