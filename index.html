@@ -335,7 +335,8 @@ box(7.68,4.92,8.03,7.23,GL,ZS,mat.int);box(8.03,4.92,10.19,5.17,GL,ZS,mat.int);b
   const [b0,b1]=doorSide>0?[y0,yi0]:[yi1,y1],[a0,a1]=doorSide>0?[yi1,y1]:[y0,yi0];box(-2.71,b0,-1.65,b1,GL,ZS,mat.conc);
   box(-2.71,a0,-1.65,a1,GL+2.1,ZS,mat.conc);box(-2.71,a0,-2.69,a1,GL,GL+2.1,mat.conc);box(-1.72,a0,-1.65,a1,GL,GL+2.1,mat.conc);
   box(-2.71,yi0,-1.65,yi1,ZS-.02,ZS,mat.white,{cast:false});box(-2.71,yi0,-1.65,yi1,GL,GL+.01,mat.micro,{cast:false});};
- room(6.70,9.30,6.97,9.22,0,1);// back face kept flush with the roof slab edge above (6.70)room(11.40,13.93,11.46,13.82,0,-1);
+ // WC back face kept flush with the roof slab edge above (6.70)
+ room(6.70,9.30,6.97,9.22,0,1);room(11.40,13.93,11.46,13.82,0,-1);
  vanity(-2.71,6.97,-1.65,7.45,GL,[[-2.185,7.0,0,.14]]);toilet(-1.65,8.26,GL,-Math.PI/2);})();
 box(-2.98,9.30,-2.78,11.40,GL,ZS,mat.conc);
 // WC door (south face) and store door (north face), each 1.0 m, opening onto the alcove off the garden passage
