@@ -402,12 +402,12 @@ function setLights(k,on){const g=LG[k];if(on&&g.dim<.03){g.dim=1;document.queryS
 slabH(0.39,6.75,8.03,13.46,ZS-.02,ZS,[VOID,STAIRF],mat.white,{cast:false});box(5.28,0.17,10.19,6.75,ZS-.02,ZS,mat.white,{cast:false});box(8.03,6.75,10.19,8.29,ZS-.02,ZS,mat.white,{cast:false});
 // double-height void over the living room: white lining on all four faces and its ceiling, to match the ground-floor ceiling
 const intL=mat.int.clone();intL.polygonOffset=true;intL.polygonOffsetFactor=-2;intL.polygonOffsetUnits=-4;
-box(VOID[0],VOID[1],VOID[2],VOID[1]+.002,ZS,ZF,intL,{cast:false});box(VOID[0],VOID[3]-.002,VOID[2],VOID[3],ZS,ZF,intL,{cast:false});
-box(VOID[0],VOID[1]+.002,VOID[0]+.002,VOID[3]-.002,ZS,ZF,intL,{cast:false});box(VOID[2]-.002,VOID[1]+.002,VOID[2],VOID[3]-.002,ZS,ZF,intL,{cast:false});
+box(VOID[0],VOID[1],VOID[2],VOID[1]+.002,ZS,ZF+.02,intL,{cast:false});box(VOID[0],VOID[3]-.002,VOID[2],VOID[3],ZS,ZF+.02,intL,{cast:false});
+box(VOID[0],VOID[1]+.002,VOID[0]+.002,VOID[3]-.002,ZS,ZF+.02,intL,{cast:false});box(VOID[2]-.002,VOID[1]+.002,VOID[2],VOID[3]-.002,ZS,ZF+.02,intL,{cast:false});
 box(VOID[0],VOID[1]+.003,VOID[2],VOID[3]-.003,ZC-.035,ZC-.02,mat.white,{cast:false});
 // stair opening in the first floor: the slab edges lined white like the void, so no grey concrete or black strip shows while climbing
-box(STAIRF[0],STAIRF[1],STAIRF[0]+.002,STAIRF[3],ZS-.02,ZF,intL,{cast:false});
-box(STAIRF[0],STAIRF[1],7.655,STAIRF[1]+.002,ZS-.02,ZF,intL,{cast:false});box(STAIRF[0],STAIRF[3]-.002,7.655,STAIRF[3],ZS-.02,ZF,intL,{cast:false});
+box(STAIRF[0],STAIRF[1],STAIRF[0]+.002,STAIRF[3],ZS-.02,ZF+.02,intL,{cast:false});
+box(STAIRF[0],STAIRF[1],7.655,STAIRF[1]+.002,ZS-.02,ZF+.02,intL,{cast:false});box(STAIRF[0],STAIRF[3]-.002,7.655,STAIRF[3],ZS-.02,ZF+.02,intL,{cast:false});
 // stair wall: one continuous fair-faced concrete face from the basement floor to the first-floor ceiling (covers the slab edges)
 // it carries on up the side of the skylight to the glass, so no other surface shares its face (no flicker)
 box(7.655,8.32,7.68,12.35,-2.65,ZRF+.3,mat.conc,{cast:false});box(7.655,7.31,7.68,8.32,ZS,ZRF+.3,mat.conc,{cast:false});box(7.655,SKY[1],7.68,7.31,ZF,ZRF+.3,mat.conc,{cast:false});
