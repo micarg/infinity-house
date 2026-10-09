@@ -866,7 +866,7 @@ document.querySelectorAll('[data-l]').forEach(b=>b.onclick=()=>setLights(b.datas
 document.getElementById('allBtn').onclick=()=>{const on=!Object.values(LG).every(g=>g.on);Object.keys(LG).forEach(k=>setLights(k,on));};
 const dimBtn=document.getElementById('dimBtn');dimBtn.onclick=()=>{const on=document.body.classList.toggle('dims');dimBtn.setAttribute('aria-pressed',on);placeStick();};
 document.querySelectorAll('[data-d]').forEach(r=>r.oninput=()=>{const k=r.dataset.d,g=LG[k];g.dim=r.value/100;setLights(k,g.dim>0);});
-setLights('B',true);
+
 // keep the joystick (and its hint) clear of the light sliders whatever their height
 function placeStick(){const bar=document.getElementById('bar'),st=document.getElementById('stick'),tp=document.getElementById('tip');
  const open=(document.body.classList.contains('light')||document.body.classList.contains('lamp'))&&getComputedStyle(bar).display!=='none';const base=open?(innerHeight-bar.getBoundingClientRect().top+14):28;
