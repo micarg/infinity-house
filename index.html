@@ -7,7 +7,7 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Infinity House">
-<meta name="theme-color" content="#101616">
+<meta name="theme-color" content="#04050f">
 <link rel="apple-touch-icon" href="icon-180.png">
 <link rel="icon" href="icon-192.png">
 <link rel="manifest" href="manifest.webmanifest">
@@ -316,9 +316,9 @@ const BY0=-3.78,BY1=-4.52,backY=x=>BY0+(BY1-BY0)*(x-LX0)/(LX1-LX0),BW=.18;
 slabH(-445,-444,455,456,-.6,0,[[0.09,6.97,10.39,13.72]],mat.earth,{cast:false});
 // street runs along the slanted front boundary (18.12 m at the west corner, 17.0 m at the east)
 const SLOPE=(17.0-18.12)/(LX1-LX0),frontY=x=>18.12+SLOPE*(x-LX0);
-let JCT=null;
+let JCT=null;const JA=30.0,JB=37.0;   // where the side street meets ours, measured along our street from the west corner of the plot
 (function(){const G=new THREE.Group();G.position.set(LX0,0,18.12);G.rotation.y=Math.atan(-SLOPE);S.add(G);const o={parent:G,cast:false};
- box(-150,0,150,1.6,-.2,.16,mat.pave,o);box(-150,1.6,150,1.8,-.2,.16,mat.curb,o);box(-150,1.8,150,8.8,-.2,.03,mat.asph,o);{const c=Math.cos(Math.atan(SLOPE)),a=(27.1-LX0)/c,b=(34.1-LX0)/c;box(-150,8.8,a,10.6,-.2,.16,mat.pave,o);box(b,8.8,150,10.6,-.2,.16,mat.pave,o);
+ box(-150,0,150,1.6,-.2,.16,mat.pave,o);box(-150,1.6,150,1.8,-.2,.16,mat.curb,o);box(-150,1.8,150,8.8,-.2,.03,mat.asph,o);{const a=JA,b=JB;box(-150,8.8,a,10.6,-.2,.16,mat.pave,o);box(b,8.8,150,10.6,-.2,.16,mat.pave,o);
   JCT=box(a,8.8,b,10.6,-.2,.16,mat.pave,o);}})();   // the stretch of far pavement where the side street joins: hidden when the neighbourhood is on
 function prism(pts,z0,z1,m){const sh=new THREE.Shape();pts.forEach((p,i)=>i?sh.lineTo(p[0],-p[1]):sh.moveTo(p[0],-p[1]));
  const g=new THREE.ExtrudeGeometry(sh,{depth:z1-z0,bevelEnabled:false});g.rotateX(-Math.PI/2);const P=g.attributes.position,N=g.attributes.normal,U=g.attributes.uv;
@@ -727,15 +727,17 @@ const NBR=new THREE.Group();NBR.visible=false;
  // it is built right up to our boundary: its carport and side wall touch our garage wall
  v(15.5,-1.5,26.4,12.0,0,3.3,W);v(15.8,-1.0,26.0,11.5,3.3,6.6,W);v(LX1+.005,6.7,15.5,12.0,0,3.3,W);  // plot 3259: two-storey house, single-storey part on our garage wall
  v(LX1+.005,12.0,20.2,16.4,2.6,3.15,D);v(20.0,12.1,20.2,16.3,0,2.6,D);box(26.9,-3.4,29.7,3.3,0,.12,mat.water);
- v(20.2,frontY(20.2)-.45,30.0,frontY(20.2)-.25,0,1.5,W);v(21.6,frontY(21.6)-.9,29.6,frontY(21.6)-.45,0,1.25,H);
+ // things along the street line are built in the street's own (slanted) frame so they sit exactly on it
+ const LF=new THREE.Group();LF.position.set(LX0,0,18.12);LF.rotation.y=Math.atan(-SLOPE);S.add(LF);const lb=(a0,b0,a1,b1,z0,z1,m)=>box(a0,b0,a1,b1,z0,z1,m,{parent:LF});
+ lb(16.77,-1.6,52,0,0,.15,mat.conc);lb(23.2,-.45,33,-.25,0,1.5,W);lb(24.6,-.9,32.6,-.45,0,1.25,H);
  // the next one along: another two-storey white house
- v(33.6,1.8,46.0,12.4,0,3.3,W);v(34.4,2.6,44.8,11.2,3.3,6.6,W);v(30.6,frontY(30.6)-.4,48,frontY(30.6)-.2,0,1.4,W);
+ v(33.6,1.8,46.0,12.4,0,3.3,W);v(34.4,2.6,44.8,11.2,3.3,6.6,W);lb(33.6,-.4,51,-.2,0,1.4,W);
  // behind us (south-west, facing the street behind): wide single-storey house with an awning, and its white back-garden wall along our back boundary
  v(0.9,-23.5,10.6,-7.8,0,3.4,W);v(2.0,-7.8,9.5,-6.6,2.6,2.75,SM_({color:0xd9b25a,roughness:.8}));  // plot 3292: single-storey house behind us
  v(15.0,-21.0,33.0,-8.0,0,3.3,W);v(16.0,-20.0,31.0,-9.0,3.3,6.6,W);// two-storey
  {const L=Math.hypot(LX1-LX0,BY1-BY0),G=new THREE.Group();G.position.set(LX0,0,BY0-.25);G.rotation.y=-Math.atan2(BY1-BY0,LX1-LX0);S.add(G);box(0,0,L,.2,0,2.0,W,{parent:G});}
  // across the street: beige two-storey house with a tiled hip roof behind a low curved corner wall, and a citrus orchard beside it
- v(13.0,32.0,24.0,42.0,0,6.0,B);hip(13.0,32.0,24.0,42.0,6.0,1.9,T);v(4.0,29.6,25.3,29.9,0,1.0,B);v(25.0,29.9,25.3,44,0,1.0,B);
+ v(13.0,32.0,24.0,42.0,0,6.0,B);hip(13.0,32.0,24.0,42.0,6.0,1.9,T);lb(7.0,10.7,JA-1.85,11.0,0,1.0,B);lb(JA-2.15,11.0,JA-1.85,24.5,0,1.0,B);
  // the block across the street, south-east of the beige house: a public green space with scattered trees
  prism([[-5,30.2],[1.5,40],[1.5,52],[-1,70],[-20,82],[-27,63],[-31,33],[-19,30.2]],0,.02,mat.grass);
  [[-3,33],[0,36],[-7,35],[-11,33.5],[-15,36],[-4,40],[-9,41],[-14,42],[-19,38],[-23,35],[-26,40],[-1,45],[-6,47],[-12,48],[-18,46],[-24,47],[-3,53],[-9,55],[-15,54],[-21,53],[-6,61],[-12,62],[-18,60],[-2,64],[-9,68],[-15,70]]
@@ -744,10 +746,8 @@ const NBR=new THREE.Group();NBR.visible=false;
  v(2.0,52.0,26.0,64.0,0,3.4,W);v(4.0,53.0,22.0,63.0,3.4,6.8,W);
  v(-34.0,62.0,-20.0,76.0,0,3.3,W);v(-33.0,63.0,-22.0,72.0,3.3,6.6,W);v(-58.0,34.0,-30.0,48.0,0,3.2,W);
  // side street opposite (Agiou Iakovou) and the street behind (Savva Zanou): asphalt with pavements
- {const F=x=>frontY(x)+10.6/Math.cos(Math.atan(SLOPE)),E=x=>frontY(x)+8.8/Math.cos(Math.atan(SLOPE));  // joined to our street at the same level (the far pavement is cut there)
-  prism([[27.1,E(27.1)],[34.1,E(34.1)],[34.1,F(34.1)],[27.1,F(27.1)]],0,.03,mat.asph);
-  prism([[27.1,F(27.1)],[34.1,F(34.1)],[34.1,150],[27.1,150]],0,.03,mat.asph);
-  prism([[25.3,F(25.3)],[27.1,F(27.1)],[27.1,150],[25.3,150]],0,.16,mat.pave);prism([[34.1,F(34.1)],[35.9,F(35.9)],[35.9,150],[34.1,150]],0,.16,mat.pave);}
+ // side street square to ours, joined at road level (our far pavement is cut there) with proper pavement corners
+ lb(JA,8.8,JB,140,0,.03,mat.asph);lb(JA-1.8,10.6,JA,140,0,.16,mat.pave);lb(JB,10.6,JB+1.8,140,0,.16,mat.pave);
  box(-150,-37.1,150,-35.3,0,.03,mat.pave);box(-150,-35.3,150,-28.3,0,.02,mat.asph);box(-150,-28.3,150,-26.5,0,.03,mat.pave);
  // everything just built goes into one group, switched on and off from the navigation menu
  S.children.slice(n0).forEach(o=>NBR.add(o));S.add(NBR);})();
