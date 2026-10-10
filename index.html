@@ -6,6 +6,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" media="(display-mode: standalone)" content="#000000">
 <meta name="apple-mobile-web-app-title" content="Infinity House">
 <meta name="theme-color" content="#04050f">
 <link rel="apple-touch-icon" href="icon-180.png">
@@ -96,7 +97,7 @@ body.moving #tb,body.moving #menuBtn,body.moving #lightBtn,body.moving #lampBtn,
 .lrow{display:flex;align-items:center;gap:8px}.lrow span{font-size:12px;color:var(--muted);min-width:6.5em}.lrow input[type=range]{width:110px}
 #dimBtn{display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;padding:0}
 /* only when opened from the home-screen icon (full screen): keep the title and icons clear of the iPhone status bar */
-@media (display-mode: standalone) and (max-width:760px){#tb{top:calc(16px + env(safe-area-inset-top,0px))}#menuBtn,#lightBtn,#lampBtn{top:calc(16px + env(safe-area-inset-top,0px))}}
+@media (display-mode: standalone){html{background:#000}body{position:fixed;left:0;right:0;bottom:0;top:env(safe-area-inset-top,0px);height:auto}}  /* home-screen app: the picture starts below the Dynamic Island / status bar, which stays black */
 #err{top:40%;left:16px;right:16px;padding:16px;text-align:center}
 </style>
 
