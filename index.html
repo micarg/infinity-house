@@ -306,19 +306,20 @@ prism([[LX0,BY0],[LX1,BY1],[LX1,POOL[1]],[LX0,POOL[1]]],-.2,GL,mat.microI);slabH
 box(0.2,POOL[3],5.24,6.71,GL,GL+.02,mat.microI,{cast:false});
 // garden passage and the alcove in front of the WC / store doors: unpaved on the plan, shown as a plain concrete floor
 box(-1.48,6.6,0,13.8,GL,GL+.02,mat.conc,{cast:false});box(-2.78,9.2,-1.48,11.3,GL,GL+.02,mat.conc,{cast:false});box(-1.0,6.5,0.2,6.6,GL,GL+.02,mat.conc,{cast:false});
-[[POOL[0]-.01,POOL[1],POOL[0],POOL[3]],[POOL[2],POOL[1],POOL[2]+.01,POOL[3]],[POOL[0],POOL[1]-.01,POOL[2],POOL[1]],[POOL[0],POOL[3],POOL[2],POOL[3]+.01]].forEach(r=>box(r[0],r[1],r[2],r[3],-1.8,GL,mat.pool,{cast:false}));
-box(POOL[0],POOL[1],POOL[2],POOL[3],-1.75,0.14,mat.water,{cast:false});
+[[POOL[0],POOL[1],POOL[0]+.01,POOL[3]],[POOL[2]-.01,POOL[1],POOL[2],POOL[3]],[POOL[0],POOL[1],POOL[2],POOL[1]+.01],[POOL[0],POOL[3]-.01,POOL[2],POOL[3]]].forEach(r=>box(r[0],r[1],r[2],r[3],-1.8,GL,mat.pool,{cast:false}));
+box(POOL[0]+.01,POOL[1]+.01,POOL[2]-.01,POOL[3]-.01,-1.75,0.14,mat.water,{cast:false});
 
 (function(){const G=(a,b,y1)=>prism([[a,backY(a)+BW],[b,backY(b)+BW],[b,y1],[a,y1]],GL,GL+.02,mat.grass);G(LX0+.2,-1.0,6.6);G(2.65,LX1-.2,-1.25);G(-1.0,2.65,POOL[1]-.32);})();box(10.7,-1.25,LX1-.2,6.5,GL,GL+.02,mat.grass);
 
 // boundary walls 1.2 m
-(function(){const L=Math.hypot(LX1-LX0,BY1-BY0),Gp=new THREE.Group();Gp.position.set(LX0,0,BY0);Gp.rotation.y=-Math.atan2(BY1-BY0,LX1-LX0);S.add(Gp);box(0,0,L,BW,0,1.0,mat.conc,{parent:Gp});})();
+(function(){const L=Math.hypot(LX1-LX0,BY1-BY0),Gp=new THREE.Group();Gp.position.set(LX0,0,BY0-.005);Gp.rotation.y=-Math.atan2(BY1-BY0,LX1-LX0);S.add(Gp);box(0,0,L,BW,0,1.0,mat.conc,{parent:Gp});})();
 // boundary walls: +1.00 above street level (fence elevations, dimension 1000)
-box(LX0,BY0,LX0+.2,6.7,0,1.0,mat.conc);box(LX1-.2,BY1,LX1,6.7,0,1.0,mat.conc);
+// boundary walls stand 5 mm proud of the ground slab edges so their faces never coincide (that flickered on phones)
+box(LX0-.005,BY0,LX0+.2,6.7,0,1.0,mat.conc);box(LX1-.2,BY1,LX1+.005,6.7,0,1.0,mat.conc);
 // meter cabinet at the street
 // EAC / water meter / bin store: 0.95 x 2.47 m, top at +1.10 above street level (fence elevations 01/02), in the front-west corner on the street line, doors facing into the plot
 (function(){const x0=LX0,x1=LX0+.95,y0=15.59,zt=1.1;
- prism([[x0,y0],[x1,y0],[x1,frontY(x1)],[x0,frontY(x0)]],0,zt,mat.conc);
+ prism([[x0-.005,y0],[x1,y0],[x1,frontY(x1)+.005],[x0-.005,frontY(x0)+.005]],0,zt,mat.conc);
  const d=louvre(1.4,.72,mat.black,.06);d.rotation.y=-Math.PI/2;d.position.set(x1+.03,GL+.04,frontY(x1)-1.55);
  box(x1,y0+.12,x1+.025,y0+.8,GL+.04,GL+.76,mat.black);box(x1+.025,y0+.7,x1+.04,y0+.74,GL+.38,GL+.5,mat.alu);})();
 
@@ -343,7 +344,7 @@ box(7.68,4.92,8.03,7.23,GL,ZS,mat.int);box(8.03,4.92,10.19,5.17,GL,ZS,mat.int);b
 box(-2.98,9.30,-2.78,11.40,GL,ZS,mat.conc);
 // WC door (south face) and store door (north face), each 1.0 m, opening onto the alcove off the garden passage
 box(-2.69,9.265,-1.72,9.30,GL,GL+2.1,mat.door);box(-1.86,9.30,-1.82,9.325,GL+.95,GL+1.07,mat.chrome);box(-2.69,11.40,-1.72,11.435,GL,GL+2.1,mat.door);box(-1.86,11.375,-1.82,11.40,GL+.95,GL+1.07,mat.chrome);box(-2.98,13.93,-2.73,14.45,GL,ZS,mat.conc);
-box(LX1-.2,6.7,LX1,14.45,0,ZS,mat.conc);
+box(LX1-.2,6.7,LX1+.005,14.45,0,ZS,mat.conc);
 // glazing
 // glazing set back behind the round columns, solid wall on the kitchen end (as in the architect's renders)
 pane('y',0.18,6.73,8.46,GL,ZS,1);pane('x',6.73,0.2,5.26,GL,ZS,3);pane('y',5.26,0.07,6.73,GL,ZS,4);
