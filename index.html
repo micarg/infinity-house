@@ -168,14 +168,15 @@ body.moving #tb,body.moving #menuBtn,body.moving #lightBtn,body.moving #lampBtn,
 <div class="panel" id="tip" hidden>Joystick: περπάτημα · έξω από τον κύκλο: τρέξιμο<br>Σύρε: βλέμμα · τσίμπημα: απόσταση</div>
 <div class="panel" id="err" hidden></div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" crossorigin="anonymous"></script>
 <script src="GLTFLoader.js"></script>
 <script src="person.js" async></script>
 <script>
 (function(){
 const errEl=document.getElementById('err');
 const fail=m=>{errEl.hidden=false;errEl.textContent='Το render δεν φόρτωσε: '+m;};
-window.addEventListener('error',e=>fail(e.message||'σφάλμα'));
+// errors are reported with where they happened; once the scene is up, a stray error no longer blanks the page
+let started=false;window.addEventListener('error',e=>{const w=(e.message||'σφάλμα')+(e.filename?' ['+e.filename.split('/').pop()+':'+e.lineno+']':'');if(started){console.warn(w);return;}fail(w);});
 if(!window.THREE){fail('δεν φορτώθηκε η βιβλιοθήκη 3D');return;}
 const cv=document.getElementById('c');
 let R;try{R=new THREE.WebGLRenderer({canvas:cv,antialias:true});}catch(e){fail('χρειάζεται WebGL');return;}
@@ -1044,7 +1045,7 @@ function frame(now){const raw=(now-last)/1000,dt=Math.min(.05,raw);last=now;
  sunSpr.visible=sunDirAll.y>-0.02;if(sunSpr.visible){sunSpr.position.copy(cam.position).addScaledVector(sunDirAll,500);const lo=1-Math.min(1,Math.max(0,sunDirAll.y/0.25));sunSpr.material.color.setRGB(1,1-0.25*lo,1-0.55*lo);}
  moon.visible=moonUp;if(moonUp){moon.position.copy(cam.position).addScaledVector(moonDir,500);_v.copy(sunDirAll).addScaledVector(moonDir,-sunDirAll.dot(moonDir));_q.copy(cam.quaternion).invert();_v.applyQuaternion(_q);moon.material.rotation=Math.atan2(_v.y,_v.x);moon.material.opacity=skyU.night.value>.5?1:0.75;}
  R.render(S,cam);requestAnimationFrame(frame);}
-requestAnimationFrame(frame);
+requestAnimationFrame(frame);started=true;
 })();
 </script>
 
