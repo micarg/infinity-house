@@ -339,6 +339,28 @@ mat.water.customProgramCacheKey=()=>'water1';
  q([x0,zH,y1],[x1,zH,y1],[x1,zB,y0],[x0,zB,y0]);               // floor (sloped)
  q([x0,zB,y0],[x0,top,y0],[x0,top,y1],[x0,zH,y1]);q([x1,zH,y1],[x1,top,y1],[x1,top,y0],[x1,zB,y0]); // side walls
  q([x1,zB,y0],[x1,top,y0],[x0,top,y0],[x0,zB,y0]);q([x0,zH,y1],[x0,top,y1],[x1,top,y1],[x1,zH,y1]);})();
+// sunlight bouncing off the rippling pool: each point of the nearby walls and the veranda soffit traces the reflected sun ray back to the water;
+// if it lands inside the pool, the same moving caustic pattern shows there (bigger and softer), so the reflections dance on the house as in reality
+let RFL=null;(function(){const U={uTime:WAT.t,uI:{value:0},uR:{value:new THREE.Vector3(0,1,0)}};RFL=U;
+ const m=new THREE.ShaderMaterial({uniforms:U,transparent:true,depthWrite:false,blending:THREE.AdditiveBlending,polygonOffset:true,polygonOffsetFactor:-2,polygonOffsetUnits:-2,
+  vertexShader:'varying vec3 vW,vN;void main(){vec4 w=modelMatrix*vec4(position,1.);vW=w.xyz;vN=normalize(mat3(modelMatrix)*normal);gl_Position=projectionMatrix*viewMatrix*w;}',
+  fragmentShader:`uniform float uTime,uI;uniform vec3 uR;varying vec3 vW,vN;
+   float cau(vec2 uv,float t){vec2 p=mod(uv*6.28318,6.28318)-250.;vec2 i=p;float c=1.;float k=.005;
+    for(int n=0;n<4;n++){float tt=t*(1.-(3.5/float(n+1)));i=p+vec2(cos(tt-i.x)+sin(tt+i.y),sin(tt-i.y)+cos(tt+i.x));c+=1./length(vec2(p.x/(sin(i.x+tt)/k),p.y/(cos(i.y+tt)/k)));}
+    c/=4.;c=1.17-pow(c,1.4);return pow(abs(c),8.);}
+   void main(){if(uI<=0.001||uR.y<.03)discard;float s=(vW.y-.14)/uR.y;if(s<=0.)discard;vec3 Q=vW-uR*s;
+    vec2 a=smoothstep(vec2(${POOL[0]},${POOL[1]}),vec2(${POOL[0]}+.4,${POOL[1]}+.4),Q.xz)*(1.-smoothstep(vec2(${POOL[2]}-.4,${POOL[3]}-.4),vec2(${POOL[2]},${POOL[3]}),Q.xz));
+    float inPool=a.x*a.y;if(inPool<=0.)discard;float face=max(0.,dot(vN,-uR));
+    float f=cau(Q.xz*.42,uTime*.55);f=min(f,1.4)*inPool*face*exp(-s*.1);
+    gl_FragColor=vec4(vec3(1.,.97,.9)*f*uI,1.);}`});
+ const pl=(w,h,x,y,z,rx,ry)=>{const me=new THREE.Mesh(new THREE.PlaneGeometry(w,h),m);me.rotation.set(rx,ry,0,'YXZ');me.position.set(x,y,z);me.renderOrder=2;S.add(me);};
+ pl(5.3-2.83,6.7+1.02,(2.83+5.3)/2,ZS-.003,(6.7-1.02)/2,Math.PI/2,0);                 // veranda soffit
+ [[-1.02,3.14],[4.16,5.25],[6.77,8.5]].forEach(([a,b])=>pl(b-a,ZRF-ZF,2.83-.003,(ZF+ZRF)/2,(a+b)/2,0,-Math.PI/2)); // upper west wall (between its openings)
+ pl(1.5,ZS-GL,-2.23,(GL+ZS)/2,6.70-.003,0,Math.PI);                                   // outbuilding face towards the pool
+ pl(9.30-6.70,ZS-GL,-1.48+.003,(GL+ZS)/2,(6.70+9.30)/2,0,Math.PI/2);                // WC side face towards the pool
+ pl(6.7-BY0,1.0-GL,LX0+.2+.003,(GL+1.0)/2,(BY0+6.7)/2,0,Math.PI/2);                   // west boundary wall, inner face
+ {const L=Math.hypot(LX1-LX0,BY1-BY0);pl(L,1.0-GL,(LX0+LX1)/2,(GL+1.0)/2,(BY0+BY1)/2+BW+.003,0,-Math.atan2(BY1-BY0,LX1-LX0));} // back boundary wall, inner face
+})();
 
 (function(){const G=(a,b,y1)=>prism([[a,backY(a)+BW],[b,backY(b)+BW],[b,y1],[a,y1]],GL,GL+.02,mat.grass);G(LX0+.2,-1.0,6.6);G(2.65,LX1-.2,-1.25);G(-1.0,2.65,POOL[1]-.32);})();box(10.7,-1.25,LX1-.2,6.5,GL,GL+.02,mat.grass);
 
@@ -930,7 +952,7 @@ envMats=new Set();S.traverse(o=>{if(o.material)[].concat(o.material).forEach(mm=
 const _q=new THREE.Quaternion(),_v=new THREE.Vector3();
 let prMax=Math.min(devicePixelRatio||1,small?1.5:2),pr=prMax,fpsT=0,fpsN=0;
 function frame(now){const raw=(now-last)/1000,dt=Math.min(.05,raw);last=now;
- WAT.t.value=now/1000;if(CAU){const day=Math.max(0,Math.min(1,sunDirAll.y*3))*(1-NIGHT),pl=LG.W.on?LG.W.dim:0;CAU.uI.value=.55*day+.45*pl*NIGHT;}
+ WAT.t.value=now/1000;if(CAU){const day=Math.max(0,Math.min(1,sunDirAll.y*3))*(1-NIGHT),pl=LG.W.on?LG.W.dim:0;CAU.uI.value=.55*day+.45*pl*NIGHT;}if(RFL){RFL.uR.value.set(-sunDirAll.x,sunDirAll.y,-sunDirAll.z).normalize();RFL.uI.value=.6*Math.max(0,Math.min(1,(sunDirAll.y-.03)*4))*(1-NIGHT);}
  fpsT+=raw;fpsN++;if(fpsT>1.2){const fps=fpsN/fpsT;fpsT=0;fpsN=0;const np=fps<42?Math.max(.75,pr-.25):(fps>57?Math.min(prMax,pr+.125):pr);if(np!==pr){pr=np;R.setPixelRatio(pr);}}
  size();
  sections.forEach(p=>{const tx=-2.73+p.userData.slot*SW+.01,dx=tx-p.position.x,st=2.2*dt;if(dx)R.shadowMap.needsUpdate=true;p.position.x=Math.abs(dx)<st?tx:p.position.x+Math.sign(dx)*st;});
