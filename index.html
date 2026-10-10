@@ -678,7 +678,7 @@ vanity(7.92,7.3,8.34,8.75,ZF,[[7.97,7.65,.14,0],[7.97,8.4,.14,0]]);toilet(8.95,7
  for(let i=0;i<6;i++){const x=-2.73+SW*(i+.5);
   const t=new THREE.Mesh(trim,blk);t.position.set(x,ZS-.0025,14.32);S.add(t);
   const l=new THREE.Mesh(lens,glow);l.rotation.x=Math.PI/2;l.position.set(x,ZS-.0055,14.32);S.add(l);}
- [0,5.4,10.8].forEach(x=>{const L=lamp('P',new THREE.SpotLight(0xffb470,2.2,6.5,.55,.8,1.5));L.position.set(x,ZS-.25,15.3);L.target.position.set(x,GL,16.6);});
+ // (no real spot lights here: the doors' glow comes from the soft washes below, so no round pools of light land on the forecourt floor)
  // each spot spreads a broad, soft pool down its panel: brightest just under the beam, fading gently to the floor, no hard edges
  const w=SW-.02,h=ZS-GL-.06,t=washTex(64,128,(u,v)=>{const sx=Math.exp(-Math.pow((u-.5)/.62,2)),sy=.38+.62*Math.exp(-Math.pow(v/.55,2))*(1-.25*Math.exp(-Math.pow(v/.06,2)));return sx*sy;});
  sections.forEach(p=>{const m=wash('P',new THREE.PlaneGeometry(w,h),t,0xffb066,.55,p);m.position.set(w/2,h/2,.027);});
