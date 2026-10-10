@@ -728,7 +728,7 @@ const NBR=new THREE.Group();NBR.visible=false;
  v(33.6,1.8,46.0,12.4,0,3.3,W);v(34.4,2.6,44.8,11.2,3.3,6.6,W);v(30.6,frontY(30.6)-.4,48,frontY(30.6)-.2,0,1.4,W);
  // behind us (south-west, facing the street behind): wide single-storey house with an awning, and its white back-garden wall along our back boundary
  v(1.5,-18.0,15.0,-8.6,0,3.4,W);v(2.5,-8.6,10.0,-7.4,2.6,2.75,SM_({color:0xd9b25a,roughness:.8}));
- v(15.0,-21.0,33.0,-8.0,0,3.6,W);v(22.0,-16.0,30.0,-9.5,3.6,4.4,W);
+ v(15.0,-21.0,33.0,-8.0,0,3.3,W);v(16.0,-20.0,31.0,-9.0,3.3,6.6,W);// two-storey
  {const L=Math.hypot(LX1-LX0,BY1-BY0),G=new THREE.Group();G.position.set(LX0,0,BY0-.25);G.rotation.y=-Math.atan2(BY1-BY0,LX1-LX0);S.add(G);box(0,0,L,.2,0,2.0,W,{parent:G});}
  // across the street: beige two-storey house with a tiled hip roof behind a low curved corner wall, and a citrus orchard beside it
  v(13.0,32.0,24.0,42.0,0,6.0,B);hip(13.0,32.0,24.0,42.0,6.0,1.9,T);v(4.0,29.6,25.3,29.9,0,1.0,B);v(25.0,29.9,25.3,44,0,1.0,B);
@@ -739,10 +739,8 @@ const NBR=new THREE.Group();NBR.visible=false;
  // side street opposite (Agiou Iakovou) and the street behind (Savva Zanou): asphalt with pavements
  box(25.3,29.9,27.1,150,0,.03,mat.pave);box(27.1,29.9,34.1,150,0,.02,mat.asph);box(34.1,29.9,35.9,150,0,.03,mat.pave);
  box(-150,-31.3,150,-29.5,0,.03,mat.pave);box(-150,-29.5,150,-22.5,0,.02,mat.asph);box(-150,-22.5,150,-20.7,0,.03,mat.pave);
- // everything just built goes into one switchable group; the houses and trees are see-through (their shadows stay full: shadows ignore opacity)
- const added=S.children.slice(n0),cache=new Map();added.forEach(o=>NBR.add(o));S.add(NBR);
- NBR.traverse(o=>{if(!o.isMesh)return;const m=o.material;if(m===mat.pave||m===mat.asph)return;
-  if(!cache.has(m)){const c=m.clone();c.transparent=true;c.opacity=.4;c.depthWrite=false;cache.set(m,c);}o.material=cache.get(m);});})();
+ // everything just built goes into one group, switched on and off from the navigation menu
+ S.children.slice(n0).forEach(o=>NBR.add(o));S.add(NBR);})();
 function setNbr(on){NBR.visible=on;R.shadowMap.needsUpdate=true;document.getElementById('nbrBtn').setAttribute('aria-pressed',on);}
 
 
