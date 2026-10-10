@@ -712,7 +712,7 @@ vanity(7.92,7.3,8.34,8.75,ZF,[[7.97,7.65,.14,0],[7.97,8.4,.14,0]]);toilet(8.95,7
 shrub(12.6,-2.9,GL,.5);shrub(-2.2,-3.1,GL,.45);
 // plain neighbouring volumes for scale, kept far and low-key
 // ---------- the neighbourhood, from the satellite view and street photos (Oct 2024): plain massing only, no details ----------
-// positions are read off the aerial photo scaled to our plot, so they are approximate (about +-2 m)
+// positions from the cadastral plan (plots 3259, 3258, 3292 around ours, 3291) and the aerial photo; approximate to about 1 m
 const NBR=new THREE.Group();NBR.visible=false;
 (function(){const n0=S.children.length;const W=SM_({map:tPlaster,color:0xeceae4,roughness:.92}),B=SM_({map:tPlaster,color:0xe2d5bc,roughness:.92}),
   D=SM_({color:0x2b2d30,roughness:.8}),T=SM_({color:0xa95b37,roughness:.85}),H=SM_({color:0x3f6a35,roughness:.95});
@@ -721,13 +721,13 @@ const NBR=new THREE.Group();NBR.visible=false;
   me.scale.set(x1-x0+.5,h,y1-y0+.5);me.position.set((x0+x1)/2,z,(y0+y1)/2);me.castShadow=me.receiveShadow=true;S.add(me);};
  // next door (north-west): two-storey white house; single-storey dark carport at the front, white wall and hedge on the street
  // it is built right up to our boundary: its carport and side wall touch our garage wall
- v(LX1+.005,2.0,26.0,12.6,0,3.3,W);v(14.4,2.6,24.8,11.4,3.3,6.6,W);v(17.2,8.2,22.2,11.6,6.6,7.4,W);
- v(LX1+.005,12.6,20.2,16.4,2.6,3.15,D);v(20.0,12.7,20.2,16.3,0,2.6,D);
+ v(15.5,-1.5,26.4,12.0,0,3.3,W);v(15.8,-1.0,26.0,11.5,3.3,6.6,W);v(LX1+.005,6.7,15.5,12.0,0,3.3,W);  // plot 3259: two-storey house, single-storey part on our garage wall
+ v(LX1+.005,12.0,20.2,16.4,2.6,3.15,D);v(20.0,12.1,20.2,16.3,0,2.6,D);box(26.9,-3.4,29.7,3.3,0,.12,mat.water);
  v(20.2,frontY(20.2)-.45,30.0,frontY(20.2)-.25,0,1.5,W);v(21.6,frontY(21.6)-.9,29.6,frontY(21.6)-.45,0,1.25,H);
  // the next one along: another two-storey white house
  v(33.6,1.8,46.0,12.4,0,3.3,W);v(34.4,2.6,44.8,11.2,3.3,6.6,W);v(30.6,frontY(30.6)-.4,48,frontY(30.6)-.2,0,1.4,W);
  // behind us (south-west, facing the street behind): wide single-storey house with an awning, and its white back-garden wall along our back boundary
- v(1.5,-18.0,15.0,-8.6,0,3.4,W);v(2.5,-8.6,10.0,-7.4,2.6,2.75,SM_({color:0xd9b25a,roughness:.8}));
+ v(0.9,-23.5,10.6,-7.8,0,3.4,W);v(2.0,-7.8,9.5,-6.6,2.6,2.75,SM_({color:0xd9b25a,roughness:.8}));  // plot 3292: single-storey house behind us
  v(15.0,-21.0,33.0,-8.0,0,3.3,W);v(16.0,-20.0,31.0,-9.0,3.3,6.6,W);// two-storey
  {const L=Math.hypot(LX1-LX0,BY1-BY0),G=new THREE.Group();G.position.set(LX0,0,BY0-.25);G.rotation.y=-Math.atan2(BY1-BY0,LX1-LX0);S.add(G);box(0,0,L,.2,0,2.0,W,{parent:G});}
  // across the street: beige two-storey house with a tiled hip roof behind a low curved corner wall, and a citrus orchard beside it
@@ -741,7 +741,7 @@ const NBR=new THREE.Group();NBR.visible=false;
  v(-34.0,62.0,-20.0,76.0,0,3.3,W);v(-33.0,63.0,-22.0,72.0,3.3,6.6,W);v(-58.0,34.0,-30.0,48.0,0,3.2,W);
  // side street opposite (Agiou Iakovou) and the street behind (Savva Zanou): asphalt with pavements
  box(25.3,29.9,27.1,150,0,.03,mat.pave);box(27.1,29.9,34.1,150,0,.02,mat.asph);box(34.1,29.9,35.9,150,0,.03,mat.pave);
- box(-150,-31.3,150,-29.5,0,.03,mat.pave);box(-150,-29.5,150,-22.5,0,.02,mat.asph);box(-150,-22.5,150,-20.7,0,.03,mat.pave);
+ box(-150,-37.1,150,-35.3,0,.03,mat.pave);box(-150,-35.3,150,-28.3,0,.02,mat.asph);box(-150,-28.3,150,-26.5,0,.03,mat.pave);
  // everything just built goes into one group, switched on and off from the navigation menu
  S.children.slice(n0).forEach(o=>NBR.add(o));S.add(NBR);})();
 function setNbr(on){NBR.visible=on;R.shadowMap.needsUpdate=true;document.getElementById('nbrBtn').setAttribute('aria-pressed',on);}
