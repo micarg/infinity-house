@@ -25,7 +25,7 @@ body{background:var(--bg);color:var(--ink);font-family:var(--sans);overflow:hidd
 #tb{top:16px;left:16px;padding:10px 14px;max-width:calc(100% - 32px)}
 #tb h1{margin:0;font-size:15px;font-weight:700;letter-spacing:.02em}
 #tb{cursor:pointer;user-select:none;-webkit-user-select:none}#tb h1{display:flex;align-items:center;gap:6px}#tb .chev{opacity:.7;transition:transform .2s}#tb.open .chev{transform:rotate(180deg)}
-#tbInfo{display:none;margin:8px 0 2px;padding:0;list-style:none;font-size:12px;line-height:1.6;color:var(--muted)}#tb.open #tbInfo{display:block}
+#tbInfo{display:none;margin:8px 0 2px;padding:0;list-style:none;font-size:12px;line-height:1.6;color:var(--muted)}#tbInfo .h{color:var(--ink);font-weight:700;font-size:10.5px;letter-spacing:.08em;margin-top:7px}#tbInfo .h:first-child{margin-top:0}#tb.open{max-width:min(380px,calc(100% - 32px))!important;max-height:calc(100% - 40px);overflow-y:auto;z-index:5}#tb.open #tbInfo{display:block}
 #bar{left:16px;right:16px;bottom:16px;padding:8px;display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center}
 .grp{display:flex;gap:4px;flex-wrap:wrap;align-items:center}
 #bar{display:none}body.menu #bar,body.light #bar,body.lamp #bar{display:flex}
@@ -101,7 +101,13 @@ body.moving #tb,body.moving #menuBtn,body.moving #lightBtn,body.moving #lampBtn,
 <canvas id="c"></canvas>
 <div class="panel" id="tb" role="button" tabindex="0" aria-expanded="false">
   <h1>Infinity House<svg class="chev" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></h1>
-  <ul id="tbInfo"><li>Ισόγειο: εμφανές μπετόν</li><li>Όροφος: λευκός με λευκές σχάρες</li><li>Γκαραζόπορτες: μαύρες, συμπαγείς, μεταλλικές</li></ul>
+  <ul id="tbInfo">
+   <li class="h">ΤΟΠΟΘΕΣΙΑ</li><li>Λατσιά, Λευκωσία, Κύπρος</li><li>Πρόσοψη δρόμου προς βορειοανατολικά · κήπος και πισίνα προς νοτιοδυτικά</li>
+   <li class="h">ΟΙΚΟΠΕΔΟ</li><li>Εμβαδόν: 365 τ.μ.</li><li>Διαστάσεις: περίπου 16,75 × 21,5–21,9 μ.</li>
+   <li class="h">ΣΠΙΤΙ</li><li>Υπόγειο: 69,50 τ.μ.</li><li>Ισόγειο: 104,50 τ.μ.</li><li>Όροφος: 85,40 τ.μ.</li><li>Σύνολο (ισόγειο + όροφος): 189,90 τ.μ. · με υπόγειο: 259,40 τ.μ.</li>
+   <li>Κάλυψη: 163,50 τ.μ. (44,8%) · Συντελεστής δόμησης: 52%</li><li>Ύψος: 6,80 μ. · 2 όροφοι + υπόγειο · Πισίνα 3 × 9 μ.</li>
+   <li class="h">ΥΛΙΚΑ</li><li>Ισόγειο: εμφανές μπετόν</li><li>Όροφος: λευκός με λευκές σχάρες</li><li>Γκαραζόπορτες: μαύρες, συμπαγείς, μεταλλικές</li>
+  </ul>
 </div>
 <div class="panel" id="bar"><div id="catTitle"></div>
   <div class="grp"><span class="lbl">ΛΗΨΗ</span>
