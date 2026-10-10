@@ -710,6 +710,32 @@ vanity(7.92,7.3,8.34,8.75,ZF,[[7.97,7.65,.14,0],[7.97,8.4,.14,0]]);toilet(8.95,7
 // ---------- planting ----------
 shrub(12.6,-2.9,GL,.5);shrub(-2.2,-3.1,GL,.45);
 // plain neighbouring volumes for scale, kept far and low-key
+// ---------- the neighbourhood, from the satellite view and street photos (Oct 2024): plain massing only, no details ----------
+// positions are read off the aerial photo scaled to our plot, so they are approximate (about +-2 m)
+(function(){const W=SM_({map:tPlaster,color:0xeceae4,roughness:.92}),B=SM_({map:tPlaster,color:0xe2d5bc,roughness:.92}),
+  D=SM_({color:0x2b2d30,roughness:.8}),T=SM_({color:0xa95b37,roughness:.85}),H=SM_({color:0x3f6a35,roughness:.95});
+ const o={cast:true},v=(x0,y0,x1,y1,z0,z1,m)=>box(x0,y0,x1,y1,z0,z1,m,o);
+ const hip=(x0,y0,x1,y1,z,h,m)=>{const g=new THREE.ConeGeometry(Math.SQRT1_2,1,4,1);g.rotateY(Math.PI/4);g.translate(0,.5,0);const me=new THREE.Mesh(g,m);
+  me.scale.set(x1-x0+.5,h,y1-y0+.5);me.position.set((x0+x1)/2,z,(y0+y1)/2);me.castShadow=me.receiveShadow=true;S.add(me);};
+ // next door (north-west): two-storey white house; single-storey dark carport at the front, white wall and hedge on the street
+ v(15.6,2.0,27.8,12.6,0,3.3,W);v(16.2,2.6,26.6,11.4,3.3,6.6,W);v(19.0,8.2,24.0,11.6,6.6,7.4,W);
+ v(15.2,12.6,21.6,16.4,2.6,3.15,D);v(15.3,12.7,15.5,16.3,0,2.6,D);v(21.4,12.7,21.6,16.3,0,2.6,D);
+ v(21.6,frontY(21.6)-.45,30.0,frontY(21.6)-.25,0,1.5,W);v(23.0,frontY(23)-.9,29.6,frontY(23)-.45,0,1.25,H);
+ // the next one along: another two-storey white house
+ v(33.6,1.8,46.0,12.4,0,3.3,W);v(34.4,2.6,44.8,11.2,3.3,6.6,W);v(30.6,frontY(30.6)-.4,48,frontY(30.6)-.2,0,1.4,W);
+ // behind us (south-west, facing the street behind): wide single-storey house with an awning, and its white back-garden wall along our back boundary
+ v(1.5,-18.0,15.0,-8.6,0,3.4,W);v(2.5,-8.6,10.0,-7.4,2.6,2.75,SM_({color:0xd9b25a,roughness:.8}));
+ v(15.0,-21.0,33.0,-8.0,0,3.6,W);v(22.0,-16.0,30.0,-9.5,3.6,4.4,W);
+ {const L=Math.hypot(LX1-LX0,BY1-BY0),G=new THREE.Group();G.position.set(LX0,0,BY0-.25);G.rotation.y=-Math.atan2(BY1-BY0,LX1-LX0);S.add(G);box(0,0,L,.2,0,2.0,W,{parent:G});}
+ // across the street: beige two-storey house with a tiled hip roof behind a low curved corner wall, and a citrus orchard beside it
+ v(13.0,32.0,24.0,42.0,0,6.0,B);hip(13.0,32.0,24.0,42.0,6.0,1.9,T);v(4.0,29.6,25.3,29.9,0,1.0,B);v(25.0,29.9,25.3,44,0,1.0,B);
+ [[-8,32.5],[-4.5,33.5],[-1,32.2],[2.5,33.4],[6,32.6],[-6.5,37],[-2.5,37.5],[1.5,36.8],[5.5,37.4],[-4,41.5],[0.5,41]].forEach(([x,y],i)=>tree(x,y,0,1.3+(i%3)*.3,1.5+(i%2)*.4,3));
+ // further away across the street: a large modern white house, and two more down the road to the south-east
+ v(2.0,52.0,26.0,64.0,0,3.4,W);v(4.0,53.0,22.0,63.0,3.4,6.8,W);
+ v(-34.0,62.0,-20.0,76.0,0,3.3,W);v(-33.0,63.0,-22.0,72.0,3.3,6.6,W);v(-58.0,34.0,-30.0,48.0,0,3.2,W);
+ // side street opposite (Agiou Iakovou) and the street behind (Savva Zanou): asphalt with pavements
+ box(25.3,29.9,27.1,150,0,.03,mat.pave);box(27.1,29.9,34.1,150,0,.02,mat.asph);box(34.1,29.9,35.9,150,0,.03,mat.pave);
+ box(-150,-31.3,150,-29.5,0,.03,mat.pave);box(-150,-29.5,150,-22.5,0,.02,mat.asph);box(-150,-22.5,150,-20.7,0,.03,mat.pave);})();
 
 
 // ---------- sun & moon for Latsia, Nicosia, by clock time, day and month (Cyprus time incl. summer time) ----------
