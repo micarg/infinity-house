@@ -56,7 +56,9 @@ input[type=range]{width:150px;max-width:40vw;accent-color:var(--accent)}
 #menuBtn{right:104px}#lightBtn{right:60px}#lampBtn{right:16px}
 #menuBtn .tx,#lightBtn .tx,#lampBtn .tx,#menuBtn .icx,#lightBtn .icx,#lampBtn .icx{display:none}#menuBtn .ic,#lightBtn .ic,#lampBtn .ic{display:block}
 #menuBtn.open .ic,#lightBtn.open .ic,#lampBtn.open .ic{display:none}#menuBtn.open .icx,#lightBtn.open .icx,#lampBtn.open .icx{display:block}
-#catTitle{display:block;flex:0 0 100%;font-size:13px;font-weight:700;letter-spacing:.1em;color:var(--ink);padding:2px 0}
+#catHead{display:flex;align-items:center;justify-content:space-between;flex:0 0 100%;order:-1;position:sticky;top:0;z-index:1}
+#catTitle{font-size:13px;font-weight:700;letter-spacing:.1em;color:var(--ink);padding:2px 0}
+#barClose{display:flex;align-items:center;justify-content:center;width:30px;height:30px;min-height:0!important;padding:0!important;flex:0 0 30px!important;margin:-2px -2px 0 8px}
 #tb{max-width:calc(100% - 180px)}
 .keep3>.lbl{display:none}
 @media (max-width:760px),(max-height:480px){
@@ -109,12 +111,13 @@ body.moving #tb,body.moving #menuBtn,body.moving #lightBtn,body.moving #lampBtn,
    <li class="h">ΥΛΙΚΑ</li><li>Ισόγειο: εμφανές μπετόν</li><li>Όροφος: λευκός με λευκές σχάρες</li><li>Γκαραζόπορτες: μαύρες, συμπαγείς, μεταλλικές</li>
   </ul>
 </div>
-<div class="panel" id="bar"><div id="catTitle"></div>
+<div class="panel" id="bar"><div id="catHead"><span id="catTitle"></span><button id="barClose" aria-label="Κλείσιμο"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
   <div class="grp"><span class="lbl">ΛΗΨΗ</span>
     <button data-v="street">Πρόσοψη δρόμου</button>
     <button data-v="pool">Πισίνα</button>
     <button data-v="back">Πίσω όψη</button>
     <button data-v="air">Από ψηλά</button>
+    <button id="nbrBtn" aria-pressed="false">Γειτονιά</button>
   </div>
   <div class="grp"><span class="lbl">ΜΕΣΑ</span>
     <button data-w="G" aria-pressed="false">Ισόγειο</button>
@@ -126,7 +129,6 @@ body.moving #tb,body.moving #menuBtn,body.moving #lightBtn,body.moving #lampBtn,
   <div class="grp"><span class="lbl">ΠΡΟΒΟΛΗ</span>
     <button data-p="pov" aria-pressed="true">Με τα μάτια μου</button>
     <button data-p="person" aria-pressed="false">Με άνθρωπο</button>
-    <button id="nbrBtn" aria-pressed="false">Γειτονιά</button>
     <button id="fixBtn" aria-pressed="false" hidden>Σταθερή κάμερα</button>
     <span id="credit" hidden style="flex:0 0 100%;font-size:10px;color:var(--muted)">Claudia: Renderpeople</span>
   </div>
@@ -1007,6 +1009,7 @@ function openCat(c){const B=document.body;['menu','light','lamp'].forEach(k=>B.c
  menuBtn.setAttribute('aria-expanded',m);lab(menuBtn,m,'ΠΛΟΗΓΗΣΗ');lightBtn.setAttribute('aria-pressed',l);lab(lightBtn,l,'ΗΛΙΟΣΤΑΣΙΟ');lampBtn.setAttribute('aria-pressed',p);lab(lampBtn,p,'ΦΩΤΙΣΜΟΣ');
  document.getElementById('catTitle').textContent=m?'ΠΛΟΗΓΗΣΗ':l?'ΗΛΙΟΣΤΑΣΙΟ':p?'ΦΩΤΙΣΜΟΣ':'';placeStick();}
 function closeMenu(){if(isPhone()&&document.body.classList.contains('menu'))openCat('menu');}
+document.getElementById('barClose').onclick=()=>{const B=document.body;['menu','light','lamp'].forEach(k=>{if(B.classList.contains(k))openCat(k);});};
 menuBtn.onclick=()=>openCat('menu');lightBtn.onclick=()=>openCat('light');lampBtn.onclick=()=>openCat('lamp');
 document.querySelectorAll('[data-v],[data-w],[data-g],[data-p]').forEach(b=>b.addEventListener('click',closeMenu));
 document.querySelectorAll('[data-l]').forEach(b=>b.onclick=()=>setLights(b.dataset.l,!LG[b.dataset.l].on));
