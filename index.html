@@ -316,8 +316,10 @@ const BY0=-3.78,BY1=-4.52,backY=x=>BY0+(BY1-BY0)*(x-LX0)/(LX1-LX0),BW=.18;
 slabH(-445,-444,455,456,-.6,0,[[0.09,6.97,10.39,13.72]],mat.earth,{cast:false});
 // street runs along the slanted front boundary (18.12 m at the west corner, 17.0 m at the east)
 const SLOPE=(17.0-18.12)/(LX1-LX0),frontY=x=>18.12+SLOPE*(x-LX0);
+let JCT=null;
 (function(){const G=new THREE.Group();G.position.set(LX0,0,18.12);G.rotation.y=Math.atan(-SLOPE);S.add(G);const o={parent:G,cast:false};
- box(-150,0,150,1.6,-.2,.16,mat.pave,o);box(-150,1.6,150,1.8,-.2,.16,mat.curb,o);box(-150,1.8,150,8.8,-.2,.03,mat.asph,o);box(-150,8.8,150,10.6,-.2,.16,mat.pave,o);})();
+ box(-150,0,150,1.6,-.2,.16,mat.pave,o);box(-150,1.6,150,1.8,-.2,.16,mat.curb,o);box(-150,1.8,150,8.8,-.2,.03,mat.asph,o);{const c=Math.cos(Math.atan(SLOPE)),a=(27.1-LX0)/c,b=(34.1-LX0)/c;box(-150,8.8,a,10.6,-.2,.16,mat.pave,o);box(b,8.8,150,10.6,-.2,.16,mat.pave,o);
+  JCT=box(a,8.8,b,10.6,-.2,.16,mat.pave,o);}})();   // the stretch of far pavement where the side street joins: hidden when the neighbourhood is on
 function prism(pts,z0,z1,m){const sh=new THREE.Shape();pts.forEach((p,i)=>i?sh.lineTo(p[0],-p[1]):sh.moveTo(p[0],-p[1]));
  const g=new THREE.ExtrudeGeometry(sh,{depth:z1-z0,bevelEnabled:false});g.rotateX(-Math.PI/2);const P=g.attributes.position,N=g.attributes.normal,U=g.attributes.uv;
  for(let i=0;i<P.count;i++){const x=P.getX(i),y=P.getY(i)+z0,z=P.getZ(i);if(Math.abs(N.getY(i))>.5)U.setXY(i,x,z);else if(Math.abs(N.getX(i))>.7)U.setXY(i,z,y);else U.setXY(i,x,y);}
@@ -742,14 +744,14 @@ const NBR=new THREE.Group();NBR.visible=false;
  v(2.0,52.0,26.0,64.0,0,3.4,W);v(4.0,53.0,22.0,63.0,3.4,6.8,W);
  v(-34.0,62.0,-20.0,76.0,0,3.3,W);v(-33.0,63.0,-22.0,72.0,3.3,6.6,W);v(-58.0,34.0,-30.0,48.0,0,3.2,W);
  // side street opposite (Agiou Iakovou) and the street behind (Savva Zanou): asphalt with pavements
- {const F=x=>frontY(x)+10.6/Math.cos(Math.atan(SLOPE)),E=x=>frontY(x)+8.8/Math.cos(Math.atan(SLOPE));  // joined to our street: the road runs over its far pavement (a raised crossing) and on
-  prism([[27.1,E(27.1)],[34.1,E(34.1)],[34.1,F(34.1)],[27.1,F(27.1)]],.03,.165,mat.asph);
+ {const F=x=>frontY(x)+10.6/Math.cos(Math.atan(SLOPE)),E=x=>frontY(x)+8.8/Math.cos(Math.atan(SLOPE));  // joined to our street at the same level (the far pavement is cut there)
+  prism([[27.1,E(27.1)],[34.1,E(34.1)],[34.1,F(34.1)],[27.1,F(27.1)]],0,.03,mat.asph);
   prism([[27.1,F(27.1)],[34.1,F(34.1)],[34.1,150],[27.1,150]],0,.03,mat.asph);
   prism([[25.3,F(25.3)],[27.1,F(27.1)],[27.1,150],[25.3,150]],0,.16,mat.pave);prism([[34.1,F(34.1)],[35.9,F(35.9)],[35.9,150],[34.1,150]],0,.16,mat.pave);}
  box(-150,-37.1,150,-35.3,0,.03,mat.pave);box(-150,-35.3,150,-28.3,0,.02,mat.asph);box(-150,-28.3,150,-26.5,0,.03,mat.pave);
  // everything just built goes into one group, switched on and off from the navigation menu
  S.children.slice(n0).forEach(o=>NBR.add(o));S.add(NBR);})();
-function setNbr(on){NBR.visible=on;R.shadowMap.needsUpdate=true;document.getElementById('nbrBtn').setAttribute('aria-pressed',on);}
+function setNbr(on){NBR.visible=on;if(JCT)JCT.visible=!on;R.shadowMap.needsUpdate=true;document.getElementById('nbrBtn').setAttribute('aria-pressed',on);}
 
 
 // ---------- sun & moon for Latsia, Nicosia, by clock time, day and month (Cyprus time incl. summer time) ----------
