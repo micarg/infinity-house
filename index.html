@@ -24,7 +24,8 @@ body{background:var(--bg);color:var(--ink);font-family:var(--sans);overflow:hidd
 .panel{position:absolute;background:var(--panel);border:1px solid var(--line);backdrop-filter:blur(8px)}
 #tb{top:16px;left:16px;padding:10px 14px;max-width:calc(100% - 32px)}
 #tb h1{margin:0;font-size:15px;font-weight:700;letter-spacing:.02em}
-#tb p{margin:2px 0 0;font-size:12px;color:var(--muted)}
+#tb{cursor:pointer;user-select:none;-webkit-user-select:none}#tb h1{display:flex;align-items:center;gap:6px}#tb .chev{opacity:.7;transition:transform .2s}#tb.open .chev{transform:rotate(180deg)}
+#tbInfo{display:none;margin:8px 0 2px;padding:0;list-style:none;font-size:12px;line-height:1.6;color:var(--muted)}#tb.open #tbInfo{display:block}
 #bar{left:16px;right:16px;bottom:16px;padding:8px;display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center}
 .grp{display:flex;gap:4px;flex-wrap:wrap;align-items:center}
 #bar{display:none}body.menu #bar,body.light #bar,body.lamp #bar{display:flex}
@@ -59,7 +60,7 @@ input[type=range]{width:150px;max-width:40vw;accent-color:var(--accent)}
 #tb{max-width:calc(100% - 180px)}
 .keep3>.lbl{display:none}
 @media (max-width:760px),(max-height:480px){
-  #tb{padding:8px 12px;max-width:calc(100% - 150px);min-height:34px;box-sizing:border-box;display:flex;align-items:center}#tb h1{font-size:13px}#tb p{display:none}
+  #tb{padding:8px 12px;max-width:calc(100% - 150px);min-height:34px;box-sizing:border-box;display:flex;align-items:center}#tb h1{font-size:13px}#tb.open{flex-direction:column;align-items:flex-start}
   #menuBtn,#lightBtn,#lampBtn{display:flex;align-items:center;justify-content:center;top:16px;width:34px;height:34px;min-height:0;padding:0;background:rgba(16,22,22,.42);border-color:rgba(255,255,255,.14)}
   #menuBtn{right:96px}#lightBtn{right:56px}#lampBtn{right:16px}
   #menuBtn .tx,#lightBtn .tx,#lampBtn .tx{display:none}#menuBtn .ic,#lightBtn .ic,#lampBtn .ic{display:block}
@@ -98,9 +99,9 @@ body.moving #tb,body.moving #menuBtn,body.moving #lightBtn,body.moving #lampBtn,
 </style>
 
 <canvas id="c"></canvas>
-<div class="panel" id="tb">
-  <h1>Infinity House</h1>
-  <p>Ισόγειο εμφανές μπετόν · όροφος λευκός με λευκές σχάρες · μαύρες συμπαγείς μεταλλικές γκαραζόπορτες</p>
+<div class="panel" id="tb" role="button" tabindex="0" aria-expanded="false">
+  <h1>Infinity House<svg class="chev" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></h1>
+  <ul id="tbInfo"><li>Ισόγειο: εμφανές μπετόν</li><li>Όροφος: λευκός με λευκές σχάρες</li><li>Γκαραζόπορτες: μαύρες, συμπαγείς, μεταλλικές</li></ul>
 </div>
 <div class="panel" id="bar"><div id="catTitle"></div>
   <div class="grp"><span class="lbl">ΛΗΨΗ</span>
@@ -947,6 +948,8 @@ function stickMove(e){const t=e.targetTouches[0];if(!t){joy.x=joy.y=0;joy.run=fa
 ['touchstart','touchmove','touchend','touchcancel'].forEach(ev=>stick.addEventListener(ev,stickMove,{passive:false}));
 // three categories (Πλοήγηση / Ηλιοστάσιο / Φωτισμός) on phone and laptop alike; opening one closes the others
 const lightBtn=document.getElementById('lightBtn'),lampBtn=document.getElementById('lampBtn');
+// the title box opens and closes the house info
+{const tb=document.getElementById('tb'),t=()=>{const o=tb.classList.toggle('open');tb.setAttribute('aria-expanded',o);};tb.addEventListener('click',t);tb.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();t();}});}
 const isPhone=()=>matchMedia('(max-width:760px),(max-height:480px)').matches;
 function openCat(c){const B=document.body;['menu','light','lamp'].forEach(k=>B.classList.toggle(k,k===c&&!B.classList.contains(k)));
  const m=B.classList.contains('menu'),l=B.classList.contains('light'),p=B.classList.contains('lamp');
