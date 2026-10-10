@@ -50,7 +50,14 @@ input[type=range]{width:150px;max-width:40vw;accent-color:var(--accent)}
 #stick.run{border-color:var(--accent);box-shadow:0 0 0 3px rgba(232,196,104,.35)}#stick.run #knob{background:var(--accent)}
 #knob{position:absolute;left:50%;top:50%;width:54px;height:54px;margin:-27px;border-radius:50%;background:rgba(238,242,241,.85);pointer-events:none}
 #tip{position:absolute;left:50%;transform:translateX(-50%);bottom:calc(170px + env(safe-area-inset-bottom,0px));padding:8px 12px;font-size:13px;line-height:1.45;text-align:center;width:max-content;max-width:calc(100vw - 32px);box-sizing:border-box;pointer-events:none}
-#menuBtn .ic,#lightBtn .ic,#lampBtn .ic,#menuBtn .icx,#lightBtn .icx,#lampBtn .icx,#catTitle{display:none}
+/* the three category buttons are small square icons on every screen (walker, sun, bulb; an X when open); the open menu shows its name on top */
+#menuBtn,#lightBtn,#lampBtn{display:flex;align-items:center;justify-content:center;top:16px;width:38px;height:38px;min-height:0;padding:0;background:rgba(16,22,22,.42);border-color:rgba(255,255,255,.14)}
+#menuBtn{right:104px}#lightBtn{right:60px}#lampBtn{right:16px}
+#menuBtn .tx,#lightBtn .tx,#lampBtn .tx,#menuBtn .icx,#lightBtn .icx,#lampBtn .icx{display:none}#menuBtn .ic,#lightBtn .ic,#lampBtn .ic{display:block}
+#menuBtn.open .ic,#lightBtn.open .ic,#lampBtn.open .ic{display:none}#menuBtn.open .icx,#lightBtn.open .icx,#lampBtn.open .icx{display:block}
+#catTitle{display:block;flex:0 0 100%;font-size:13px;font-weight:700;letter-spacing:.1em;color:var(--ink);padding:2px 0}
+#tb{max-width:calc(100% - 180px)}
+.keep3>.lbl{display:none}
 @media (max-width:760px),(max-height:480px){
   #tb{padding:8px 12px;max-width:calc(100% - 150px);min-height:34px;box-sizing:border-box;display:flex;align-items:center}#tb h1{font-size:13px}#tb p{display:none}
   #menuBtn,#lightBtn,#lampBtn{display:flex;align-items:center;justify-content:center;top:16px;width:34px;height:34px;min-height:0;padding:0;background:rgba(16,22,22,.42);border-color:rgba(255,255,255,.14)}
