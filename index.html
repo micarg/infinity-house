@@ -358,6 +358,9 @@ let RFL=null;(function(){const U={uTime:WAT.t,uI:{value:0},uR:{value:new THREE.V
  [[-1.02,3.14],[4.16,5.25],[6.77,8.5]].forEach(([a,b])=>pl(b-a,ZRF-ZF,2.83-.003,(ZF+ZRF)/2,(a+b)/2,0,-Math.PI/2)); // upper west wall (between its openings)
  pl(1.5,ZS-GL,-2.23,(GL+ZS)/2,6.70-.003,0,Math.PI);                                   // outbuilding face towards the pool
  pl(9.30-6.70,ZS-GL,-1.48+.003,(GL+ZS)/2,(6.70+9.30)/2,0,Math.PI/2);                // WC side face towards the pool
+ // and through the glazing onto the white ceilings of the ground floor next to the pool (kitchen side and living room)
+ pl(10.19-5.28,6.75-.09,(5.28+10.19)/2,ZS-.023,(.09+6.75)/2,Math.PI/2,0);
+ pl(3.13-.39,10.0-6.75,(.39+3.13)/2,ZS-.023,(6.75+10.0)/2,Math.PI/2,0);pl(5.26-3.13,7.2-6.75,(3.13+5.26)/2,ZS-.023,(6.75+7.2)/2,Math.PI/2,0);
  pl(6.7-BY0,1.0-GL,LX0+.2+.003,(GL+1.0)/2,(BY0+6.7)/2,0,Math.PI/2);                   // west boundary wall, inner face
  {const L=Math.hypot(LX1-LX0,BY1-BY0);pl(L,1.0-GL,(LX0+LX1)/2,(GL+1.0)/2,(BY0+BY1)/2+BW+.003,0,-Math.atan2(BY1-BY0,LX1-LX0));} // back boundary wall, inner face
 })();
